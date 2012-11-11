@@ -1,3 +1,4 @@
+#para importar la clase matrix desde el paquete utils:
 import sys
 sys.path.append('../utils')
 from matrix import *
