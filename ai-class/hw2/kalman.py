@@ -7,11 +7,11 @@ from matrix import *
 
 def filter(x, P):
     for n in range(len(measurements)):
-        
+
         # prediction
         x = (F * x) + u
         P = F * P * F.transpose()
-        
+
         # measurement update
         Z = matrix([measurements[n]])
         y = Z.transpose() - (H * x)
@@ -19,7 +19,7 @@ def filter(x, P):
         K = P * H.transpose() * S.inverse()
         x = x + (K * y)
         P = (I - (K * H)) * P
-    
+
     print 'x= '
     x.show()
     print 'P= '
@@ -29,11 +29,11 @@ def filter(x, P):
 
 print "### 4-dimensional example ###"
 
-measurements = [[5., 10.], [6., 8.], [7., 6.], [8., 4.], [9., 2.], [10., 0.]]
-initial_xy = [4., 12.]
+#measurements = [[5., 10.], [6., 8.], [7., 6.], [8., 4.], [9., 2.], [10., 0.]]
+#initial_xy = [4., 12.]
 
-# measurements = [[1., 4.], [6., 0.], [11., -4.], [16., -8.]]
-# initial_xy = [-4., 8.]
+measurements = [[1., 4.], [6., 0.], [11., -4.], [16., -8.]]
+initial_xy = [-4., 8.]
 
 # measurements = [[1., 17.], [1., 15.], [1., 13.], [1., 11.]]
 # initial_xy = [1., 19.]
