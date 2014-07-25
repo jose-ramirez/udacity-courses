@@ -20,14 +20,14 @@ def filter(x, P):
         x = x + (K * y)
         P = (I - (K * H)) * P
 
-    print 'x= '
+    print('x= ')
     x.show()
-    print 'P= '
+    print('P= ')
     P.show()
 
 ########################################
 
-print "### 4-dimensional example ###"
+print("### 4-dimensional example ###")
 
 #measurements = [[5., 10.], [6., 8.], [7., 6.], [8., 4.], [9., 2.], [10., 0.]]
 #initial_xy = [4., 12.]
