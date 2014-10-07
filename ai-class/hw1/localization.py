@@ -8,9 +8,11 @@ colors = [['r', 'g', 'g', 'r', 'r'],
           ['r', 'r', 'g', 'g', 'r'],
           ['r', 'r', 'r', 'r', 'r']]
 
-measurements = ['g', 'g', 'g', 'g', 'g']
+measurements_1 = ['g', 'g', 'g', 'g', 'g']
+moves_1 = [[0, 0], [0, 1], [1, 0], [1, 0], [0, 1]]
 
-motions = [[0, 0], [0, 1], [1, 0], [1, 0], [0, 1]]
+measurements_2 = ['r', 'r', 'r', 'r', 'g']
+moves_2 = [[0, 0], [1, 0], [1, 0], [0, 1], [0, 1]]
 
 def sense(p, colors, measurement):
     aux = [[0.0 for row in range(len(p[0]))] for col in range(len(p))]
@@ -35,18 +37,21 @@ def move(p, motion):
 
 def show(p):
     for i in range(len(p)):
-        print p[i]
+        print [float('{:1.3}'.format(x)) for x in p[i]]
 
 #main routine:
-if len(measurements) != len(motions):
+if len(measurements_2) != len(moves_2):
     raise ValueError, "error in measurement/motion size."
 
 pInit = 1./(float(len(colors)))/float(len(colors[0]))
 p = [[pInit for row in range(len(colors[0]))] for col in range(len(colors))]
-print len(p)
-print len(p[0])
-for k in range(len(measurements)):
-    p = move(p, motions[k])
-    p = sense(p, colors, measurements[k])
 
-show(p)
+for k in range(len(measurements_1)):
+    print 'Move ', k + 1, ':'
+    p = move(p, moves_1[k])
+    show(p)
+    print
+    print 'Sense ', k + 1, ':'
+    p = sense(p, colors, measurements_1[k])
+    show(p)
+    print
