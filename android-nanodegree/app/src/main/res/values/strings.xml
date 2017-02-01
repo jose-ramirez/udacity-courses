@@ -1,0 +1,23 @@
+<resources>
+
+    <string name="app_name">Movies</string>
+
+    <string name="movie_poster_base_url">http://image.tmdb.org/t/p/w780</string>
+
+    <string name="movie_detail_poster_base_url">http://image.tmdb.org/t/p/w342</string>
+
+    <string name="api_key">Your API key should be here.</string>
+
+    <string name="popular">popular</string>
+
+    <string name="tmdb_base_url">https://api.themoviedb.org/</string>
+
+    <string name="sort_by">Sorting criteria</string>
+
+    <string name="sort_by_key">sort_by</string>
+
+    <string name="summary">Choose what movies will be displayed initially.</string>
+
+    <string name="timeout_error_message">Connection timeout error occured.\nPlease check your internet connection.</string>
+
+</resources>
