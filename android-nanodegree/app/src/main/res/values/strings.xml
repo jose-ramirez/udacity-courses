@@ -19,5 +19,6 @@
     <string name="summary">Choose what movies will be displayed initially.</string>
 
     <string name="timeout_error_message">Connection timeout error occured.\nPlease check your internet connection.</string>
+    <string name="details">Details</string>
 
 </resources>

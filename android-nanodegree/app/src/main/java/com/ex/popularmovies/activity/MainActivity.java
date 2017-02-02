@@ -1,8 +1,10 @@
 package com.ex.popularmovies.activity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +14,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.ex.popularmovies.view.MovieAdapter;
-import com.ex.popularmovies.common.MovieGetter;
 import com.ex.popularmovies.R;
+import com.ex.popularmovies.common.MovieGetter;
 import com.ex.popularmovies.models.Movies;
+import com.ex.popularmovies.view.MovieAdapter;
 
 import java.net.SocketTimeoutException;
 import java.util.Observable;
@@ -23,7 +25,8 @@ import java.util.Observer;
 
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements Observer{
+public class MainActivity extends AppCompatActivity implements Observer,
+        SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
@@ -35,17 +38,16 @@ public class MainActivity extends AppCompatActivity implements Observer{
 
     private TextView tvErrorMessage;
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        showLoading();
-        this.mg.getMovies();
-    }
+    private SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //we need to set this activity as a property change listener.
+        this.settings = PreferenceManager.getDefaultSharedPreferences(this);
+        this.settings.registerOnSharedPreferenceChangeListener(this);
 
         //This will tell us to wait while loading the movie data:
         this.pbLoading = (ProgressBar) findViewById(R.id.pb_loading_movies);
@@ -60,9 +62,11 @@ public class MainActivity extends AppCompatActivity implements Observer{
         GridLayoutManager layout = new GridLayoutManager(this, cols);
         this.results.setLayoutManager(layout);
 
-        //Our movie getter (by default it attempts to get the list of popular movies first):
+        //Our movie getter. Queries the movie database based on the sort criteria
+        //that was last set in the settings activity.
         this.mg = new MovieGetter(this);
         this.mg.getMovies();
+
     }
 
 
@@ -89,20 +93,19 @@ public class MainActivity extends AppCompatActivity implements Observer{
 
         if(o instanceof Response){
 
-            showResultsView();
             //got some movie data, yay!
             showMovieData((Response) o);
 
         }else if(o instanceof SocketTimeoutException){
             /*
-                Couldn't connect after 5 seconds,
-                or it connected, but it's taking more
-                than 5 seconds to get the movie data.
+                It enters here if it couldn't connect after 5 seconds,
+                or if it connected, but it's taking more than 5 seconds
+                to get the movie data.
             */
             displayErrorMessage(this.getString(R.string.timeout_error_message));
 
         }else{
-            //Something went south here.
+            //Something unexpected went south here.
             displayErrorMessage("Uknown error occured:\n" + clazz);
         }
     }
@@ -120,13 +123,14 @@ public class MainActivity extends AppCompatActivity implements Observer{
         this.tvErrorMessage.setVisibility(View.VISIBLE);
     }
 
-    private void showLoading(){
+    private void showLoadingProgressBar(){
         this.tvErrorMessage.setVisibility(View.INVISIBLE);
         this.results.setVisibility(View.INVISIBLE);
         this.pbLoading.setVisibility(View.VISIBLE);
     }
 
     private void showMovieData(Response res){
+        showResultsView();
         Movies movs = (Movies)res.body();
         if(movs != null){
             this.results.setVisibility(View.VISIBLE);
@@ -134,5 +138,17 @@ public class MainActivity extends AppCompatActivity implements Observer{
         }else{
             this.tvErrorMessage.setVisibility(View.VISIBLE);
         }
+    }
+
+    /*
+    *   Here we want to listen to preference changes, so we
+    *   can update the movie list shown on the main activity
+    *   based on the currently selected sort criteria (most
+    *   popular first - top rated first).
+    * */
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
+        showLoadingProgressBar();
+        this.mg.getMovies();
     }
 }

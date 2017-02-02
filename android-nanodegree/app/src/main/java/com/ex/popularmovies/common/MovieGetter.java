@@ -48,15 +48,17 @@ public class MovieGetter extends Observable {
 
         this.apiKey = this.ctx.getString(R.string.api_key);
 
-        this.gson = new GsonBuilder()
-                .setDateFormat("MM/dd/yyyy")
-                .create();
 
+        //Our JSON converter.
+        this.gson = new GsonBuilder().create();
+
+        //waits 5 seconds to connect or to get the data if it connects.
         this.httpConfig = new OkHttpClient.Builder()
                 .readTimeout(5, TimeUnit.SECONDS)
                 .connectTimeout(5, TimeUnit.SECONDS)
                 .build();
 
+        //Our movie getter.
         this.RFAdapter = new Retrofit.Builder()
                 .baseUrl(this.ctx.getString(R.string.tmdb_base_url))
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -66,6 +68,10 @@ public class MovieGetter extends Observable {
         this.ma = this.RFAdapter.create(MovieAPI.class);
     }
 
+    /*
+    * Gets a movie based on the ID passed to it, and notifies to anyone
+    * listening about its results (whether it fetched a movie or not).
+    * */
     public void getMovie(int id){
         Callback<Movie> movieCallback = new Callback<Movie>() {
             @Override
@@ -76,7 +82,9 @@ public class MovieGetter extends Observable {
 
             @Override
             public void onFailure(Call<Movie> call, Throwable t) {
-                Log.e(LOG_TAG, t.getMessage());
+                Log.e(LOG_TAG, t.toString());
+                setChanged();
+                notifyObservers(t);
             }
         };
 
@@ -84,6 +92,12 @@ public class MovieGetter extends Observable {
         ma.getMovie(id, this.apiKey).enqueue(movieCallback);
     }
 
+    /*
+    * Gets a movie list based on the sort criteria specified in the settings:
+    * most popular movies first, or top rated movies first. It also notifies
+    * to any class listening about the results of the query, i.e., the list
+    * of movies, or an exception.
+    * */
     public void getMovies(){
 
         String criteria =

@@ -29,6 +29,10 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
         itemView.setOnClickListener(this);
     }
 
+    /*
+    * To show the movie details upon clicking the movie poster
+    * on the main view.
+    * */
     @Override
     public void onClick(View view) {
         int pos = getAdapterPosition();

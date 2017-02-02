@@ -69,7 +69,6 @@ public class MovieDetailsActivity extends AppCompatActivity implements Observer{
     public void update(Observable observable, Object o) {
 
         if(o instanceof Response){
-            showDetailsView();
 
             showMovieDetails((Response) o);
 
@@ -88,6 +87,7 @@ public class MovieDetailsActivity extends AppCompatActivity implements Observer{
     }
 
     private void showMovieDetails(Response res) {
+        showDetailsView();
         Movie m = (Movie) res.body();
 
         this.tvReleaseDate.setText(
