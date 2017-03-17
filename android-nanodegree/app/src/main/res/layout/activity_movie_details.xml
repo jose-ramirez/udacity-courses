@@ -13,7 +13,7 @@
         android:layout_gravity="center"/>
 
     <TextView
-        android:text="No movies to load."
+        android:text="@string/couldn_t_load_movie_details"
         android:visibility="invisible"
         android:id="@+id/tv_movie_details_error_message"
         android:layout_width="wrap_content"
@@ -52,13 +52,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Title:" />
+                        android:text="@string/title" />
                     <TextView
                         android:textSize="16dp"
                         android:paddingLeft="3dp"
                         android:paddingBottom="5dp"
                         android:id="@+id/tv_original_title"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <TextView
@@ -67,13 +67,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Release date:" />
+                        android:text="@string/release_date" />
                     <TextView
                         android:textSize="16dp"
                         android:paddingLeft="3dp"
                         android:paddingBottom="5dp"
                         android:id="@+id/tv_release_date"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <TextView
@@ -82,14 +82,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="Rating:" />
+                        android:text="@string/rating" />
                     <TextView
                         android:textSize="16dp"
                         android:paddingLeft="3dp"
                         android:paddingBottom="5dp"
                         android:id="@+id/tv_vote_average"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
+                    <Button
+                        android:id="@+id/add_to_fav_button"
+                        android:text="@string/add_to_favs"
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:onClick="updateFavList"/>
                 </LinearLayout>
             </GridLayout>
             <TextView
@@ -100,13 +106,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="Synopsis:" />
+                android:text="@string/synopsis" />
             <TextView
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingBottom="3dp"
                 android:textSize="16dp"
                 android:id="@+id/tv_synopsis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_margin="3dp"
+                android:id="@+id/rv_videos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_margin="3dp"
+                android:id="@+id/rv_reviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

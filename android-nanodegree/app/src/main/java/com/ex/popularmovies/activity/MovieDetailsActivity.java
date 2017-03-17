@@ -1,16 +1,26 @@
 package com.ex.popularmovies.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.ex.popularmovies.common.MovieGetter;
 import com.ex.popularmovies.R;
+import com.ex.popularmovies.api.MovieGetter;
 import com.ex.popularmovies.models.Movie;
+import com.ex.popularmovies.models.Reviews;
+import com.ex.popularmovies.models.Video;
+import com.ex.popularmovies.models.Videos;
+import com.ex.popularmovies.utils.Utils;
+import com.ex.popularmovies.view.ReviewsAdapter;
+import com.ex.popularmovies.view.VideosAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.net.SocketTimeoutException;
@@ -18,25 +28,38 @@ import java.text.SimpleDateFormat;
 import java.util.Observable;
 import java.util.Observer;
 
-import retrofit2.Response;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MovieDetailsActivity extends AppCompatActivity implements Observer{
 
-    TextView tvReleaseDate;
+    @BindView(R.id.tv_release_date) TextView tvReleaseDate;
 
-    TextView tvVoteAverage;
+    @BindView(R.id.tv_vote_average) TextView tvVoteAverage;
 
-    TextView tvOriginalTitle;
+    @BindView(R.id.tv_original_title) TextView tvOriginalTitle;
 
-    TextView tvSynopsis;
+    @BindView(R.id.tv_synopsis) TextView tvSynopsis;
 
-    ProgressBar pbLoading;
+    @BindView(R.id.pb_loading_movie_details) ProgressBar pbLoading;
 
-    TextView tvMovieDetailsErrorMessage;
+    @BindView(R.id.tv_movie_details_error_message) TextView tvMovieDetailsErrorMessage;
 
-    ScrollView svDetails;
+    @BindView(R.id.sv_details) ScrollView svDetails;
 
-    ImageView ivPoster;
+    @BindView(R.id.iv_poster) ImageView ivPoster;
+
+    @BindView(R.id.rv_videos) RecyclerView rvVideos;
+
+    @BindView(R.id.rv_reviews) RecyclerView rvReviews;
+
+    @BindView(R.id.add_to_fav_button) Button favButton;
+
+    private int movieId;
+
+    private MovieGetter mg;
+
+    private Movie mov;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,39 +67,47 @@ public class MovieDetailsActivity extends AppCompatActivity implements Observer{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
 
-        this.svDetails = (ScrollView) findViewById(R.id.sv_details);
+        ButterKnife.bind(this);
 
-        this.pbLoading = (ProgressBar) findViewById(R.id.pb_loading_movie_details);
+        LinearLayoutManager vidLlm = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false){
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        this.rvVideos.setLayoutManager(vidLlm);
 
-        this.tvMovieDetailsErrorMessage = (TextView) findViewById(R.id.tv_movie_details_error_message);
+        LinearLayoutManager revLlm = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+        this.rvReviews.setLayoutManager(revLlm);
 
-        this.tvReleaseDate = (TextView) findViewById(R.id.tv_release_date);
+        this.movieId = getIntent().getIntExtra("movie_id", 550);
 
-        this.tvOriginalTitle = (TextView) findViewById(R.id.tv_original_title);
+        this.mg = new MovieGetter(this);
 
-        this.tvVoteAverage = (TextView) findViewById(R.id.tv_vote_average);
-
-        this.tvSynopsis = (TextView) findViewById(R.id.tv_synopsis);
-
-        this.ivPoster = (ImageView) findViewById(R.id.iv_poster);
-
-        int movieId = getIntent().getIntExtra("movie_id", 550);
-
-        new MovieGetter(this).getMovie(movieId);
+        this.mg.getMovie(movieId);
     }
 
     @Override
     public void update(Observable observable, Object o) {
 
-        if(o instanceof Response){
-
-            showMovieDetails((Response) o);
-
+        String clazz = o.getClass().getSimpleName();
+        if(o instanceof Movie){
+            this.mov = (Movie) o;
+            showMovieDetails((Movie) o);
+            this.mg.getMovieVideos(this.movieId);
+        }else if (o instanceof Videos) {
+            Videos vids = (Videos) o;
+            rvVideos.setAdapter(new VideosAdapter(vids.getResults()));
+            new MovieGetter(this).getMovieReviews(this.movieId);
+        }else if (o instanceof Reviews) {
+            Reviews reviews = (Reviews) o;
+            rvReviews.setAdapter(new ReviewsAdapter(reviews.getResults()));
         }else if (o instanceof SocketTimeoutException){
             displayErrorMessage(this.getString(R.string.timeout_error_message));
-
         }else{
-            displayErrorMessage("Unknown error:\n" + o.getClass().getSimpleName());
+            displayErrorMessage("Unknown error:\n" + clazz);
         }
     }
 
@@ -86,17 +117,18 @@ public class MovieDetailsActivity extends AppCompatActivity implements Observer{
         this.svDetails.setVisibility(View.VISIBLE);
     }
 
-    private void showMovieDetails(Response res) {
+    private void showMovieDetails(Movie m) {
         showDetailsView();
-        Movie m = (Movie) res.body();
 
         this.tvReleaseDate.setText(
-                new SimpleDateFormat("dd/MM/yyyy").format(m.getReleaseDate()));
+                new SimpleDateFormat(
+                        getString(R.string.date_format)).format(m.getReleaseDate()));
 
         this.tvOriginalTitle.setText(m.getOriginalTitle());
 
+        String formatString = getString(R.string.vote_average_format_string).replace("%%", "%");
         this.tvVoteAverage.setText(
-                String.format("%.2f (%d votes)", m.getVoteAvg(), m.getVotes()));
+                String.format(formatString, m.getVoteAvg(), m.getVotes()));
 
         this.tvSynopsis.setText(m.getSynopsis());
 
@@ -104,6 +136,10 @@ public class MovieDetailsActivity extends AppCompatActivity implements Observer{
             .with(this)
             .load(this.getString(R.string.movie_detail_poster_base_url) + m.getPosterPath())
             .into(this.ivPoster);
+
+        if(Utils.isMovieFavorite(m.getId(), getContentResolver())){
+            favButton.setText(R.string.unfav_movie_label);
+        }
     }
 
     private void displayErrorMessage(String msg){
@@ -111,5 +147,19 @@ public class MovieDetailsActivity extends AppCompatActivity implements Observer{
         this.svDetails.setVisibility(View.INVISIBLE);
         this.tvMovieDetailsErrorMessage.setText(msg);
         this.tvMovieDetailsErrorMessage.setVisibility(View.VISIBLE);
+    }
+
+    public void viewPossiblyOnYoutube(View view){
+        Video v = (Video) view.getTag();
+        String videoId = v.getKey();
+        Utils.showVideoFromHere(videoId, this);
+    }
+
+    public void updateFavList(View view){
+        if(mov != null){
+            final int movieId = this.movieId;
+            final Activity detailsActivity = this;
+            Utils.updateFavorites(detailsActivity, movieId, mov.getTitle()).execute();
+        }
     }
 }

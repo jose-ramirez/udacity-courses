@@ -16,7 +16,7 @@
         android:layout_gravity="center"/>
 
     <TextView
-        android:text="No movies to load."
+        android:text="@string/no_movies_to_load"
         android:visibility="invisible"
         android:id="@+id/tv_error_message"
         android:layout_width="wrap_content"

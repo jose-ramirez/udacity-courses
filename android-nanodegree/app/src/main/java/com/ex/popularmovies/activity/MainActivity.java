@@ -15,48 +15,55 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ex.popularmovies.R;
-import com.ex.popularmovies.common.MovieGetter;
+import com.ex.popularmovies.api.MovieGetter;
 import com.ex.popularmovies.models.Movies;
 import com.ex.popularmovies.view.MovieAdapter;
+import com.facebook.stetho.Stetho;
 
 import java.net.SocketTimeoutException;
 import java.util.Observable;
 import java.util.Observer;
 
-import retrofit2.Response;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements Observer,
         SharedPreferences.OnSharedPreferenceChangeListener{
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private RecyclerView results;
-
     private MovieGetter mg;
 
-    private ProgressBar pbLoading;
-
-    private TextView tvErrorMessage;
-
     private SharedPreferences settings;
+
+    @BindView(R.id.rv_results_view) RecyclerView results;
+
+    //This will tell us to wait while loading the movie data:
+    @BindView(R.id.pb_loading_movies) ProgressBar pbLoading;
+
+    //Our error message will be here to show when something goes south:
+    @BindView(R.id.tv_error_message) TextView tvErrorMessage;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateView(getString(R.string.sort_by_key));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
         setContentView(R.layout.activity_main);
 
-        //we need to set this activity as a property change listener.
+        ButterKnife.bind(this);
+
+        //we need to make this activity listen to preference changes.
         this.settings = PreferenceManager.getDefaultSharedPreferences(this);
         this.settings.registerOnSharedPreferenceChangeListener(this);
 
-        //This will tell us to wait while loading the movie data:
-        this.pbLoading = (ProgressBar) findViewById(R.id.pb_loading_movies);
-
-        //Our error message will be here to show when something goes south:
-        this.tvErrorMessage = (TextView) findViewById(R.id.tv_error_message);
-
-        //Creating/Configuring the recycler view to display the results in a grid:
-        this.results = (RecyclerView) findViewById(R.id.rv_results_view);
+        //the movies will be shown in a grid, the number of columns depending
+        //on the device's orientation.
         int orientation = getResources().getConfiguration().orientation;
         int cols = orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 3;
         GridLayoutManager layout = new GridLayoutManager(this, cols);
@@ -65,8 +72,18 @@ public class MainActivity extends AppCompatActivity implements Observer,
         //Our movie getter. Queries the movie database based on the sort criteria
         //that was last set in the settings activity.
         this.mg = new MovieGetter(this);
-        this.mg.getMovies();
+        updateView(getString(R.string.sort_by_key));
+    }
 
+    private void updateView(String key) {
+        showLoadingProgressBar();
+        String sortBy = this.settings.getString(key,
+                getString(R.string.default_sort_criteria));
+        if(!getString(R.string.sort_favorites).equals(sortBy)){
+            this.mg.getMovies();
+        }else{
+            this.mg.getFavorites();
+        }
     }
 
 
@@ -91,10 +108,10 @@ public class MainActivity extends AppCompatActivity implements Observer,
 
         String clazz = o.getClass().getSimpleName();
 
-        if(o instanceof Response){
+        if(o instanceof Movies){
 
             //got some movie data, yay!
-            showMovieData((Response) o);
+            showMovieData((Movies) o);
 
         }else if(o instanceof SocketTimeoutException){
             /*
@@ -106,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements Observer,
 
         }else{
             //Something unexpected went south here.
-            displayErrorMessage("Uknown error occured:\n" + clazz);
+            displayErrorMessage("Uknown error:\n" + clazz);
         }
     }
 
@@ -129,9 +146,8 @@ public class MainActivity extends AppCompatActivity implements Observer,
         this.pbLoading.setVisibility(View.VISIBLE);
     }
 
-    private void showMovieData(Response res){
+    private void showMovieData(Movies movs){
         showResultsView();
-        Movies movs = (Movies)res.body();
         if(movs != null){
             this.results.setVisibility(View.VISIBLE);
             this.results.setAdapter(new MovieAdapter(movs));
@@ -144,11 +160,10 @@ public class MainActivity extends AppCompatActivity implements Observer,
     *   Here we want to listen to preference changes, so we
     *   can update the movie list shown on the main activity
     *   based on the currently selected sort criteria (most
-    *   popular first - top rated first).
+    *   popular first, top rated first, or favorites).
     * */
     @Override
-    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
-        showLoadingProgressBar();
-        this.mg.getMovies();
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        updateView(key);
     }
 }

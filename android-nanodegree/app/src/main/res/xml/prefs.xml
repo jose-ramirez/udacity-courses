@@ -5,7 +5,6 @@
         android:key="sort_by"
         android:title="@string/sort_by"
         android:defaultValue="popular"
-        android:summary="@string/summary"
         android:entries="@array/sort_criteria_names"
         android:entryValues="@array/sort_criteria_values"/>
 

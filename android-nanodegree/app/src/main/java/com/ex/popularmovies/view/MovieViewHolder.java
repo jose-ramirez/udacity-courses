@@ -15,6 +15,8 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
 
     private Movie mov;
 
+    private View v;
+
     public ImageView getPoster() {
         return poster;
     }
@@ -35,7 +37,6 @@ public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnC
     * */
     @Override
     public void onClick(View view) {
-        int pos = getAdapterPosition();
         Intent intent = new Intent(view.getContext(), MovieDetailsActivity.class);
         intent.putExtra("movie_id", this.mov.getId());
         view.getContext().startActivity(intent);

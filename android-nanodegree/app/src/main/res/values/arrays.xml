@@ -4,11 +4,13 @@
     <array name="sort_criteria_names">
         <item>Most popular</item>
         <item>Top rated</item>
+        <item>Favorites</item>
     </array>
 
     <array name="sort_criteria_values">
         <item>popular</item>
         <item>top_rated</item>
+        <item>favorites</item>
     </array>
 
 </resources>

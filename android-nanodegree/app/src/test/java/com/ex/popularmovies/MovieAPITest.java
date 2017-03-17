@@ -1,6 +1,6 @@
 package com.ex.popularmovies;
 
-import com.ex.popularmovies.common.MovieGetter;
+import com.ex.popularmovies.api.MovieGetter;
 
 import org.junit.Before;
 import org.junit.Test;
