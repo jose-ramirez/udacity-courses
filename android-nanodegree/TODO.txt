@@ -7,7 +7,7 @@ an icon for the app?
 correctly working back buttons?
 
 tests
-	travis?
+	travis? (in process)
 widgets
 method documentation
 accesibility
