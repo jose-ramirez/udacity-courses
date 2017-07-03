@@ -1,5 +1,7 @@
 language: android
+
 jdk: oraclejdk8
+
 env:
   global:
     - TERM=dumb
@@ -32,4 +34,4 @@ before_script:
   - adb wait-for-device
   - adb shell input keyevent 82 &
 
-script: ./gradlew build connectedAndroidTest
+script: ./gradlew build connectedAndroidTest --stacktrace --debug
