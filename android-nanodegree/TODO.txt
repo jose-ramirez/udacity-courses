@@ -1,0 +1,15 @@
+no video URL message
+no video thumbnail(?)
+show the ingredients SOMEWHERE (read the rubrics, again!)
+build variants
+signing
+an icon for the app?
+correctly working back buttons?
+
+tests
+	travis?
+widgets
+method documentation
+accesibility
+
+leakcanary in production
