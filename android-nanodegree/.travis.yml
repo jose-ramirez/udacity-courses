@@ -11,11 +11,12 @@ sdk_components:
   - platform-tools
   - tools
   - build-tools-25.0.3
-  - android-24
+  - android-23
   - android-25
-  - sys-img-armeabi-v7a-android-24
   - extra-google-m2repository
   - extra-android-m2repository
+  - extra-android-support
+  - sys-img-armeabi-v7a-android-23
 
 licenses:
   - 'android-sdk-preview-license-.+'
@@ -31,7 +32,7 @@ before_install:
 
 before_script:
   - android list targets
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-23 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
   - adb shell input keyevent 82 &
