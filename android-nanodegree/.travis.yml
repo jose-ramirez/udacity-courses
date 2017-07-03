@@ -10,10 +10,14 @@ sdk_components:
   - tools
   - platform-tools
   - build-tools-25.0.1
-  - android-24
+  - android-25
   - extra-google-m2repository
   - extra-android-m2repository
 
+licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 
 before_script:
   - echo no | android create avd --force -n test -t $ANDROID_TARGET --abi $ANDROID_ABI
