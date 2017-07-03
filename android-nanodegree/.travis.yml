@@ -29,6 +29,7 @@ before_install:
   - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license" # This license code was in my local license folder
 
 before_script:
+  - android list targets
   - echo no | android create avd --force -n test -t 25 --abi "armeabi-v7a"
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
