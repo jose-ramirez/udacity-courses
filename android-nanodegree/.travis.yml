@@ -4,10 +4,15 @@ env:
   global:
     - TERM=dumb
   matrix:
-    - ANDROID_TARGET=android-19 ANDROID_ABI=armeabi-v7a
+    - ANDROID_TARGET=android-25 ANDROID_ABI=armeabi-v7a
 
 sdk_components:
-  - build-tools-19.0.3
+  - tools
+  - platform-tools
+  - build-tools-25.0.1
+  - android-24
+  - extra-google-m2repository
+  - extra-android-m2repository
 
 
 before_script:
