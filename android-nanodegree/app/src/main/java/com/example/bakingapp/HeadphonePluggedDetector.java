@@ -21,6 +21,8 @@ public class HeadphonePluggedDetector extends BroadcastReceiver{
         this.player = player;
     }
 
+    public HeadphonePluggedDetector(){}
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
