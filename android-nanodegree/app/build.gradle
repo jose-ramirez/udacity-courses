@@ -17,14 +17,19 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    // Ignore lint errors on build
+    lintOptions {
+        abortOnError false
+    }
 }
 
-sonarqube {
+/*sonarqube {
     properties {
         property "sonar.profile", "Android Lint"
         property "sonar.sources", "./src/main/java"
     }
-}
+}*/
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])

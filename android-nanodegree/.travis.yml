@@ -18,9 +18,12 @@ licenses:
   - 'android-sdk-license-.+'
   - 'google-gdk-license-.+'
 
+# I need to install the license for android-25 so I can use it
+# in the project building phase; as seen in here:
+# https://gist.github.com/harmittaa/7d3c51041ffd0e54cda9807e95593309
 before_install:
   - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license" # This license code was in my local license folder
 
 before_script:
   - android list sdk --no-ui --all --extended
@@ -28,6 +31,5 @@ before_script:
   - emulator -avd test -no-skin -no-audio -no-window &
   - adb wait-for-device
   - adb shell input keyevent 82 &
-
 
 script: ./gradlew build connectedAndroidTest
