@@ -1,15 +1,38 @@
-no video URL message
-no video thumbnail(?)
 show the ingredients SOMEWHERE (read the rubrics, again!)
+
 build variants
-signing
-an icon for the app?
-correctly working back buttons?
+	signing (release)
 
-tests
-	travis? (in process)
 widgets
-method documentation
-accesibility
+	starts the app, only
 
-leakcanary in production
+material design
+
+pretty printing error messages (they just lie there, unformatted and ugly)
+
+accesibility
+	content strings
+
+siu native:
+
+    fix gradle file
+        enable multidexing?
+
+    release build variant shows nothing on the map
+
+    how to apply mvp in here?
+
+    testing?
+
+    services/notifications?
+
+    get all bus-stops and plot them in some map :)
+
+    it wasn't necessary to call the service to sync the database inside an asynctask,
+    so I took the sync code out of the asyncctask that called it :)
+
+teste @rock-content
+workana
+toptal(?)
+
+moraima.bimney@gmail.com moraimasanchez, email de mi mamá

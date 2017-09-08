@@ -25,6 +25,7 @@
 package com.example.bakingapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -68,11 +69,8 @@ public class OrientationChangeAction implements ViewAction {
     public void perform(UiController uiController, View view) {
         uiController.loopMainThreadUntilIdle();
 
-        // Because of multi-activity support (correct me if I'm wrong),
-        // the context comes "wrapped" inside a context wrapper
-        ContextThemeWrapper wrappedContext = (ContextThemeWrapper)
-                view.findViewById(android.R.id.content).getContext();
-        final Activity activity = (Activity) wrappedContext.getBaseContext();
+        Context viewContext = view.findViewById(android.R.id.content).getContext();
+        final Activity activity = (Activity) viewContext;
 
         activity.setRequestedOrientation(orientation);
 

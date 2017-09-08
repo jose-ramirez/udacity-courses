@@ -6,6 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/step_details_fragment_layout"
-    tools:context="com.example.bakingapp.StepDetailsActivity">
+    tools:context=".view.activity.StepDetailsActivity">
 
 </LinearLayout>

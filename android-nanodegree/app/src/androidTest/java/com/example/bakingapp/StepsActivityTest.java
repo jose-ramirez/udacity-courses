@@ -3,6 +3,9 @@ package com.example.bakingapp;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.bakingapp.model.RecipesModel;
+import com.example.bakingapp.presenter.RecipesPresenter;
+import com.example.bakingapp.view.activity.recipes.RecipesActivity;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 import org.junit.After;
@@ -10,6 +13,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import okhttp3.OkHttpClient;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -27,8 +32,8 @@ import static org.hamcrest.Matchers.greaterThan;
 public class StepsActivityTest {
 
     @Rule
-    public ActivityTestRule<MainActivity> activityRule =
-            new ActivityTestRule<>(MainActivity.class);
+    public ActivityTestRule<RecipesActivity> activityRule =
+            new ActivityTestRule<>(RecipesActivity.class);
 
     /**
      * Initial confgurations for each test:
@@ -38,9 +43,11 @@ public class StepsActivityTest {
      * */
     @Before
     public void setUp(){
-        MainActivity activity = activityRule.getActivity();
-        IdlingResourceTestUtils.registerIdlingResource(activity.client);
-        ActivityTestUtils.wakeUpDevice(activity);
+        RecipesActivity activity = activityRule.getActivity();
+        RecipesPresenter presenter = (RecipesPresenter) activity.recipesPresenter;
+        RecipesModel model = (RecipesModel) presenter.recipesModel;
+        OkHttpClient client = model.client;
+        IdlingResourceTestUtils.registerIdlingResource(client);
     }
 
     /**

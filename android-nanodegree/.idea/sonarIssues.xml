@@ -3,16 +3,6 @@
   <component name="issues">
     <option name="index">
       <map>
-        <entry key="/Dummy.txt">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="/a.dummy">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="/fragment.java">
           <value>
             <set />
@@ -23,42 +13,27 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/ActivityTestUtils.java">
+        <entry key="$PROJECT_DIR$/app/build/intermediates/res/merged/androidTest/debug/values/values.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/BakingAppInstrumentedTest.java">
+        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/DatabaseTest.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/BaseTestUtils.java">
+        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/DatabaseTests.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/IdlingResourceTestUtils.java">
+        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/RecipesActivityIntentsTest.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/MainActivityIntentsTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/MainActivityTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/OrientationChangeAction.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/RecyclerViewItemCountAssertion.java">
+        <entry key="$PROJECT_DIR$/app/src/androidTest/java/com/example/bakingapp/RecipesActivityTest.java">
           <value>
             <set />
           </value>
@@ -68,97 +43,62 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/BakingAppApplication.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/BakingAppUtil.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/MVP.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/BakingApplication.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/di/RecipesActivityModule.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/DefaultExoPlayerListener.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/model/RecipesModel.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/HeadphonePluggedDetector.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/presenter/RecipesPresenter.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/ListItemClickListener.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/util/DBUtils.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/MainActivity.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/view/activity/recipes/RecipeViewHolder.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/RecipeAdapter.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/view/activity/recipes/RecipesActivity.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/RecipesObserver.java">
+        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/view/widget/BakingAppWidget.java">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/StepsAdapter.java">
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/selector_favorite.xml">
           <value>
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/VideoPlayerFragment.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/api/BakingAPI.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/java/com/example/bakingapp/api/BakingAPIReader.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout-sw600dp/activity_steps.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+        <entry key="$PROJECT_DIR$/app/src/main/res/drawable/selector_favorite_button.xml">
           <value>
             <set />
           </value>
         </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/layout/item.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/recipe.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/step.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/layout/step_video_player.xml">
           <value>
             <set />
           </value>
@@ -173,32 +113,7 @@
             <set />
           </value>
         </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/values/colors.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
         <entry key="$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/test/java/com/example/bakingapp/BakingAppUnitTest.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/test/java/com/example/bakingapp/EmptyRecipeList.java">
-          <value>
-            <set />
-          </value>
-        </entry>
-        <entry key="$PROJECT_DIR$/app/src/test/java/com/example/bakingapp/EmptyRecipeListMock.java">
           <value>
             <set />
           </value>
