@@ -1,11 +1,13 @@
-package com.example.bakingapp;
+package com.example.bakingapp.view.activity.recipes;
 
 import android.support.test.espresso.intent.rule.IntentsTestRule;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.bakingapp.R;
 import com.example.bakingapp.model.RecipesModel;
 import com.example.bakingapp.presenter.RecipesPresenter;
-import com.example.bakingapp.view.activity.recipes.RecipesActivity;
+import com.example.bakingapp.util.IdlingResourceTestUtils;
 import com.example.bakingapp.view.activity.steps.StepsActivity;
 
 import org.junit.After;
@@ -27,7 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
  * Created by jose on 30/06/17.
  */
 @RunWith(AndroidJUnit4.class)
-public class RecipesActivityIntentsTest extends IdlingResourceTestUtils{
+public class RecipesActivityIntentsTest extends IdlingResourceTestUtils {
 
     @Rule
     public IntentsTestRule<RecipesActivity> activityRule =
@@ -54,7 +56,7 @@ public class RecipesActivityIntentsTest extends IdlingResourceTestUtils{
     @Test
     public void launchMainActivity_clickOnItem() {
 
-        onView(withId(R.id.rv_recipes))
+        onView(ViewMatchers.withId(R.id.rv_recipes))
                 .perform(actionOnItemAtPosition(1, click()));
 
         intended(hasComponent(StepsActivity.class.getName()));

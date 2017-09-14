@@ -1,21 +1,14 @@
 package com.example.bakingapp.presenter;
 
 import android.app.Activity;
-import android.content.ContentProvider;
 import android.content.ContentResolver;
 import android.content.Context;
-import android.database.Cursor;
 import android.view.View;
 
 import com.example.bakingapp.MVP;
 import com.example.bakingapp.R;
-import com.example.bakingapp.db.BakingAppDatabase;
-import com.example.bakingapp.db.IngredientColumns;
-import com.example.bakingapp.db.RecipeColumns;
-import com.example.bakingapp.db.StepColumns;
 import com.example.bakingapp.model.Recipe;
 import com.example.bakingapp.model.RecipesModel;
-import com.example.bakingapp.provider.BakingAppProvider;
 import com.example.bakingapp.util.BakingAppUtil;
 import com.example.bakingapp.util.DBUtils;
 
@@ -43,6 +36,11 @@ public class RecipesPresenter implements MVP.Presenter, Observer<List<Recipe>> {
     public RecipesPresenter(){
         this.recipesModel = new RecipesModel();
         this.recipes = new ArrayList<Recipe>();
+    }
+
+    @Override
+    public void unsubscribe() {
+        this.unsubscribe();
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.example.bakingapp;
+package com.example.bakingapp.assertions;
 
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;

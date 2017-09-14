@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.bakingapp.di.PlayerFragmentModule;
-import com.example.bakingapp.presenter.HeadphonePluggedDetector;
 import com.example.bakingapp.R;
 import com.example.bakingapp.di.DaggerPlayerFragmentComponent;
+import com.example.bakingapp.di.PlayerFragmentModule;
 import com.example.bakingapp.model.Step;
+import com.example.bakingapp.presenter.HeadphonePluggedDetector;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
@@ -66,13 +66,17 @@ public class VideoPlayerFragment extends Fragment {
 
         ButterKnife.bind(this, view);
 
+        // The last parameter is for resuming playback, i.e., if I rotate the device,
+        // the player should resume playback from where it was before rotating; but I
+        // hardcode it to 0 since I couldn't send this value from the fragment to the
+        // activity in a clean way :(
         PlayerFragmentModule pm = new PlayerFragmentModule(getActivity(), step, 0);
         DaggerPlayerFragmentComponent.builder()
                 .playerFragmentModule(pm)
                 .build()
                 .inject(this);
 
-        playerView.setPlayer(player);
+        this.playerView.setPlayer(player);
 
         String videoURL = this.step.getVideoURL();
         if(videoURL == null || videoURL.isEmpty()){
@@ -115,7 +119,6 @@ public class VideoPlayerFragment extends Fragment {
         if(this.headsetReceiver != null){
             getActivity().unregisterReceiver(this.headsetReceiver);
         }
-        releasePlayer();
     }
 
     @Override
@@ -127,8 +130,11 @@ public class VideoPlayerFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
+        // This method was inside onPause(), but here it managed to
+        // solve a memory leak (android kept referencing the player
+        // through the player view even after destroying this fragment)
         releasePlayer();
     }
 }

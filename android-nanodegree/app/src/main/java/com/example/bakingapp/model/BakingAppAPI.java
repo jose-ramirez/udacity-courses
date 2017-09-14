@@ -1,7 +1,5 @@
 package com.example.bakingapp.model;
 
-import com.example.bakingapp.model.Recipe;
-
 import java.util.List;
 
 import io.reactivex.Observable;
@@ -12,8 +10,15 @@ import retrofit2.http.GET;
  */
 
 public interface BakingAppAPI {
+
+    // The path for the recipes' info
     String BASE_PATH = "/topher/2017/May/59121517_baking/baking.json";
 
+    /**
+     * Get all the recipes' data :)
+     *
+     * @return An Observable to deal with the recipes' data reactively.
+     */
     @GET(BASE_PATH)
     Observable<List<Recipe>> getRecipes();
 }

@@ -11,6 +11,6 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
-        android:background="@drawable/cake_layered" />
+        android:background="@drawable/ic_app_icon" />
 
 </RelativeLayout>

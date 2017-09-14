@@ -5,14 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bakingapp.R;
+import com.example.bakingapp.model.Recipe;
 import com.example.bakingapp.util.DBUtils;
 import com.example.bakingapp.view.activity.steps.StepsActivity;
-import com.example.bakingapp.model.Recipe;
 
 /**
  * Created by jose on 23/05/17.

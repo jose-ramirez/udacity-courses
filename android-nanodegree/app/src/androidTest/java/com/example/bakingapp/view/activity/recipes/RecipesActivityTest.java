@@ -1,11 +1,13 @@
-package com.example.bakingapp;
+package com.example.bakingapp.view.activity.recipes;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.bakingapp.R;
 import com.example.bakingapp.model.RecipesModel;
 import com.example.bakingapp.presenter.RecipesPresenter;
-import com.example.bakingapp.view.activity.recipes.RecipesActivity;
+import com.example.bakingapp.util.IdlingResourceTestUtils;
 
 import org.junit.After;
 import org.junit.Before;
@@ -17,7 +19,7 @@ import okhttp3.OkHttpClient;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static com.example.bakingapp.RecyclerViewItemCountAssertion.withItemCount;
+import static com.example.bakingapp.assertions.RecyclerViewItemCountAssertion.withItemCount;
 
 /**
  * Instrumentation test, which will execute on an Android device.
@@ -53,7 +55,7 @@ public class RecipesActivityTest {
      * */
     @Test
     public void launchMainActivity_showsRecipes(){
-        onView(withId(R.id.rv_recipes))
+        onView(ViewMatchers.withId(R.id.rv_recipes))
                 .check(withItemCount(DEFAULT_PAGE_SIZE));
     }
 

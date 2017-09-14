@@ -3,11 +3,12 @@ package com.example.bakingapp.view.activity.steps;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bakingapp.R;
-import com.example.bakingapp.view.activity.ListItemClickListener;
 import com.example.bakingapp.model.Step;
+import com.example.bakingapp.view.activity.ListItemClickListener;
 
 /**
  * Created by jose on 08/06/17.
@@ -25,7 +26,8 @@ public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         super(itemView);
         this.context = itemView.getContext();
         this.lstnr = lstnr;
-        itemView.setOnClickListener(this);
+        ImageButton playStepButton = (ImageButton) itemView.findViewById(R.id.play_step_button);
+        playStepButton.setOnClickListener(this);
     }
 
     public void bind(Step step){

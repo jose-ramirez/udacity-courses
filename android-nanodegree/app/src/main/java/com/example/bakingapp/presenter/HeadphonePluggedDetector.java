@@ -24,18 +24,25 @@ public class HeadphonePluggedDetector extends BroadcastReceiver{
 
     public HeadphonePluggedDetector(){}
 
+    /**
+     * What to do when the headset is unplugged?
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent) {
         if (intent.getAction().equals(Intent.ACTION_HEADSET_PLUG)) {
             int state = intent.getIntExtra("state", -1);
             switch (state) {
                 case 0:
+                    //If unplugged, stop playback
                     Timber.i(context.getString(R.string.headset_unplugged_msg));
                     if(this.player != null && this.player.getPlaybackState() == ExoPlayer.STATE_READY && player.getPlayWhenReady()){
                         this.player.setPlayWhenReady(false);
                     }
                     break;
                 case 1:
+                    // Else keep playing
                     Timber.i(context.getString(R.string.headset_plugged_msg));
                     if(this.player != null && this.player.getPlaybackState() == ExoPlayer.STATE_READY){
                         this.player.setPlayWhenReady(true);

@@ -31,7 +31,7 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipeViewHolder>{
     public RecipeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View recipe = inflater.inflate(R.layout.item, parent, false);
+        View recipe = inflater.inflate(R.layout.item_fav_recipe, parent, false);
         return new RecipeViewHolder(recipe);
     }
 

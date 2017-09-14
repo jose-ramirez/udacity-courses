@@ -1,8 +1,10 @@
 package com.example.bakingapp.model;
 
+import com.example.bakingapp.BuildConfig;
 import com.example.bakingapp.MVP;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,16 +17,20 @@ public class RecipesModel implements MVP.Model {
 
     private BakingAppAPI api;
 
-    private String BASE_URL = "https://d17h27t6h515a5.cloudfront.net/";
-
     public OkHttpClient client;
 
     public RecipesModel(){
 
-        this.client = new OkHttpClient();
+        // One interceptor to log them all, :)
+        HttpLoggingInterceptor logAll = new HttpLoggingInterceptor()
+                .setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        this.client = new OkHttpClient.Builder()
+                .addInterceptor(logAll)
+                .build();
 
         Retrofit adapter = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.BASE_URL)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
             .addConverterFactory(GsonConverterFactory.create())
             .client(this.client)

@@ -1,10 +1,16 @@
-package com.example.bakingapp;
+package com.example.bakingapp.view.activity.steps;
 
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.example.bakingapp.R;
+import com.example.bakingapp.actions.MyViewAction;
+import com.example.bakingapp.actions.OrientationChangeAction;
+import com.example.bakingapp.assertions.RecyclerViewItemCountAssertion;
 import com.example.bakingapp.model.RecipesModel;
 import com.example.bakingapp.presenter.RecipesPresenter;
+import com.example.bakingapp.util.IdlingResourceTestUtils;
 import com.example.bakingapp.view.activity.recipes.RecipesActivity;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
@@ -56,7 +62,7 @@ public class StepsActivityTest {
     @Test
     public void launchMainActivity_showsRecipes(){
 
-        onView(withId(R.id.rv_recipes))
+        onView(ViewMatchers.withId(R.id.rv_recipes))
                 .perform(actionOnItemAtPosition(1, click()));
 
         onView(withId(R.id.rv_recipe_steps))
@@ -89,7 +95,7 @@ public class StepsActivityTest {
                 .perform(actionOnItemAtPosition(1, click()));
 
         onView(withId(R.id.rv_recipe_steps))
-                .perform(actionOnItemAtPosition(1, click()));
+                .perform(actionOnItemAtPosition(1, MyViewAction.clickChildViewWithId(R.id.play_step_button)));
 
         // Here isAssignableFrom() is used instead of withId(). This is to
         // avoid espresso matching multiple views with the same id, as it
@@ -99,11 +105,26 @@ public class StepsActivityTest {
         // id twice though
         onView(isAssignableFrom(SimpleExoPlayerView.class))
                 .check(matches(isDisplayed()));
+    }
+
+    /**
+     * The video should come with a view showing the description of the video, i.e.,
+     * what the video is about.
+     */
+    @Test
+    public void launchMainActivity_showsDescription_portrait(){
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationPortrait());
+
+        onView(withId(R.id.rv_recipes))
+                .perform(actionOnItemAtPosition(1, click()));
+
+        onView(withId(R.id.rv_recipe_steps))
+                .perform(actionOnItemAtPosition(1, MyViewAction.clickChildViewWithId(R.id.play_step_button)));
 
         onView(withId(R.id.tv_step_description))
                 .check(matches(isDisplayed()));
     }
-
     /**
      * It should only show the video of a step of a selected recipe,
      * since it's in landscape mode.
@@ -117,10 +138,25 @@ public class StepsActivityTest {
                 .perform(actionOnItemAtPosition(1, click()));
 
         onView(withId(R.id.rv_recipe_steps))
-                .perform(actionOnItemAtPosition(1, click()));
+                .perform(actionOnItemAtPosition(1, MyViewAction.clickChildViewWithId(R.id.play_step_button)));
 
         onView(isAssignableFrom(SimpleExoPlayerView.class))
                 .check(matches(isDisplayed()));
+    }
+
+    /**
+     * So that no description should exist in this view.
+     */
+    @Test
+    public void launchMainActivity_noDescription_landscape(){
+
+        onView(isRoot()).perform(OrientationChangeAction.orientationLandscape());
+
+        onView(withId(R.id.rv_recipes))
+                .perform(actionOnItemAtPosition(1, click()));
+
+        onView(withId(R.id.rv_recipe_steps))
+                .perform(actionOnItemAtPosition(1, MyViewAction.clickChildViewWithId(R.id.play_step_button)));
 
         onView(withId(R.id.tv_step_description))
                 .check(doesNotExist());

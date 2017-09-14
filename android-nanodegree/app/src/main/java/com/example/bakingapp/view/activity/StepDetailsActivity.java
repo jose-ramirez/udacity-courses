@@ -5,8 +5,8 @@ import android.app.FragmentManager;
 import android.os.Bundle;
 
 import com.example.bakingapp.R;
-import com.example.bakingapp.view.fragment.VideoPlayerFragment;
 import com.example.bakingapp.model.Step;
+import com.example.bakingapp.view.fragment.VideoPlayerFragment;
 
 public class StepDetailsActivity extends Activity {
 

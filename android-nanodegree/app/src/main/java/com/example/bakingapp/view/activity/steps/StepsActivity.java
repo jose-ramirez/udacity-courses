@@ -8,25 +8,33 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ListView;
+import android.widget.Toast;
 
-import com.example.bakingapp.util.BakingAppUtil;
 import com.example.bakingapp.R;
-import com.example.bakingapp.view.fragment.VideoPlayerFragment;
-import com.example.bakingapp.view.activity.ListItemClickListener;
-import com.example.bakingapp.view.activity.StepDetailsActivity;
+import com.example.bakingapp.model.Ingredient;
 import com.example.bakingapp.model.Recipe;
 import com.example.bakingapp.model.Step;
+import com.example.bakingapp.util.BakingAppUtil;
+import com.example.bakingapp.view.activity.ListItemClickListener;
+import com.example.bakingapp.view.activity.StepDetailsActivity;
+import com.example.bakingapp.view.fragment.VideoPlayerFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class StepsActivity extends AppCompatActivity implements ListItemClickListener {
+public class StepsActivity extends AppCompatActivity implements ListItemClickListener{
 
     @BindView(R.id.rv_recipe_steps) RecyclerView rvRecipeSteps;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
+
+    @BindView(R.id.lv_ingredients) ListView ingredientsListView;
+
+    private Recipe recipe;
 
     private static final String RECIPE_KEY = "recipe";
 
@@ -39,23 +47,35 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_steps);
 
+        recipe = (Recipe) getIntent().getSerializableExtra(RECIPE_KEY);
+
         ButterKnife.bind(this);
 
-        Recipe recipe = (Recipe) getIntent().getSerializableExtra(RECIPE_KEY);
         List<Step> steps = recipe.getSteps();
         StepsAdapter adapter = new StepsAdapter(steps, this);
 
         rvRecipeSteps.setLayoutManager(new LinearLayoutManager(this));
         rvRecipeSteps.setAdapter(adapter);
 
+        ingredientsListView.setAdapter(new IngredientsAdapter(this, getIngredientStrings(recipe)));
+
         toolbar.setTitle(recipe.getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    private List<String> getIngredientStrings(Recipe recipe){
+        List<String> ingredientStrings = new ArrayList<>();
+        for(Ingredient i : recipe.getIngredients()){
+            ingredientStrings.add(String.format("%s (%.1f %s)", i.getIngredient(), i.getQuantity(), i.getMeasure()));
+        }
+        return ingredientStrings;
+    }
+
     @Override
     public void onClick(View v) {
         Step step = (Step) v.getTag();
+
         if(!BakingAppUtil.sw(this, DEFAULT_SMALLEST_WIDTH)){
             Intent stepVideoIntent = new Intent(this, StepDetailsActivity.class);
             stepVideoIntent.putExtra(STEP_KEY, step);

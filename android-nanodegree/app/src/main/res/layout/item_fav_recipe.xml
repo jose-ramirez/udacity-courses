@@ -16,16 +16,15 @@
             android:id="@+id/tv_description"
             tools:text="@string/test_text"
             android:layout_width="0dp"
-            android:layout_weight="3"
-            style="@style/ItemStyle" />
+            android:layout_weight="5"
+            style="@style/BaseItemStyle" />
 
         <ImageButton
             android:id="@+id/fav_button"
-            style="@style/FavoriteButton"
             android:onClick="favRecipe"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:tint="@color/colorPrimary" />
+            style="@style/FavoriteButtonStyle"/>
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

@@ -22,14 +22,13 @@
  * SOFTWARE.
  *
  */
-package com.example.bakingapp;
+package com.example.bakingapp.actions;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
-import android.support.v7.view.ContextThemeWrapper;
 import android.view.View;
 
 import org.hamcrest.Matcher;

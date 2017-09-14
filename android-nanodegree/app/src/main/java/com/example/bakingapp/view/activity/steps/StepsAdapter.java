@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bakingapp.R;
-import com.example.bakingapp.view.activity.ListItemClickListener;
 import com.example.bakingapp.model.Step;
+import com.example.bakingapp.view.activity.ListItemClickListener;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepViewHolder>{
     public StepViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View stepView = inflater.inflate(R.layout.item, parent, false);
+        View stepView = inflater.inflate(R.layout.item_play_step, parent, false);
         return new StepViewHolder(stepView, this.lstnr);
     }
 

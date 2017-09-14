@@ -3,7 +3,6 @@ package com.example.bakingapp.provider;
 import android.net.Uri;
 
 import com.example.bakingapp.db.BakingAppDatabase;
-
 import com.example.bakingapp.db.BakingAppDatabase.Tables;
 import com.example.bakingapp.db.IngredientColumns;
 import com.example.bakingapp.db.RecipeColumns;
@@ -14,7 +13,8 @@ import net.simonvt.schematic.annotation.ContentUri;
 import net.simonvt.schematic.annotation.TableEndpoint;
 
 /**
- * Created by jose on 05/07/17.
+ * This is basically the core of the contract for our database, defining
+ * content URIs and such and their corresponding paths.
  */
 
 @ContentProvider(
@@ -41,6 +41,9 @@ public class BakingAppProvider {
         return builder.build();
     }
 
+    /**
+     * Recipes endpoint for the provider
+     */
     @TableEndpoint(table = Tables.RECIPES) public static class Recipes{
         @ContentUri(
                 path = Path.RECIPES,
@@ -49,6 +52,9 @@ public class BakingAppProvider {
         public static final Uri CONTENT_URI = buildUri(Path.RECIPES);
     }
 
+    /**
+     * Ingredients endpoint for the provider
+     */
     @TableEndpoint(table = Tables.INGREDIENTS) public static class Ingredients{
         @ContentUri(
                 path = Path.INGREDIENTS,
@@ -57,6 +63,9 @@ public class BakingAppProvider {
         public static final Uri CONTENT_URI = buildUri(Path.INGREDIENTS);
     }
 
+    /**
+     * Recipe steps endpoint for the provider
+     */
     @TableEndpoint(table = Tables.STEPS) public static class Steps{
         @ContentUri(
                 path = Path.STEPS,
