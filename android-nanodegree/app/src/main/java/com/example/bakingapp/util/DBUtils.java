@@ -15,6 +15,7 @@ import com.example.bakingapp.provider.BakingAppProvider.Ingredients;
 import com.example.bakingapp.provider.BakingAppProvider.Recipes;
 import com.example.bakingapp.provider.BakingAppProvider.Steps;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -134,5 +135,45 @@ public class DBUtils {
             }
         }
         return cvSteps;
+    }
+
+    public static Recipe getRecipe(ContentResolver provider, int id){
+
+        Recipe recipe = new Recipe();
+
+        Cursor recipeCursor = provider.query(
+                BakingAppProvider.Recipes.CONTENT_URI, null, RecipeColumns.ID + " = ?", new String[]{String.valueOf(id)}, null, null);
+        Cursor stepsCursor = provider.query(
+                BakingAppProvider.Steps.CONTENT_URI, null, StepColumns.RECIPE_ID + " = ?", new String[]{String.valueOf(id)}, null, null);
+        Cursor ingredientsCursor = provider.query(
+                BakingAppProvider.Ingredients.CONTENT_URI, null, IngredientColumns.RECIPE_ID + " = ?", new String[]{String.valueOf(id)}, null, null);
+
+        if(recipeCursor != null && recipeCursor.moveToFirst()){
+            recipe.setId(Long.valueOf(id));
+            recipe.setImage(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeColumns.IMAGE)));
+            recipe.setName(recipeCursor.getString(recipeCursor.getColumnIndex(RecipeColumns.NAME)));
+            recipe.setServings(recipeCursor.getLong(recipeCursor.getColumnIndex(RecipeColumns.SERVINGS)));
+        }
+
+        List<Ingredient> ingredientsList = new ArrayList<>();
+        while(ingredientsCursor.moveToNext()){
+            Ingredient ing = new Ingredient();
+            ing.setIngredient(ingredientsCursor.getString(ingredientsCursor.getColumnIndex(IngredientColumns.INGREDIENT)));
+            ing.setMeasure(ingredientsCursor.getString(ingredientsCursor.getColumnIndex(IngredientColumns.MEASURE)));
+            ing.setQuantity(ingredientsCursor.getDouble(ingredientsCursor.getColumnIndex(IngredientColumns.QUANTITY)));
+            ingredientsList.add(ing);
+        }recipe.setIngredients(ingredientsList);
+
+        List<Step> steps = new ArrayList<Step>();
+        while(stepsCursor.moveToNext()){
+            Step step = new Step();
+            step.setDescription(stepsCursor.getString(stepsCursor.getColumnIndex(StepColumns.DESCRIPTION)));
+            step.setShortDescription(stepsCursor.getString(stepsCursor.getColumnIndex(StepColumns.SHORT_DESCRIPTION)));
+            step.setThumbnailURL(stepsCursor.getString(stepsCursor.getColumnIndex(StepColumns.THUMBNAIL_URL)));
+            step.setVideoURL(stepsCursor.getString(stepsCursor.getColumnIndex(StepColumns.THUMBNAIL_URL)));
+            steps.add(step);
+        }recipe.setSteps(steps);
+
+        return recipe;
     }
 }

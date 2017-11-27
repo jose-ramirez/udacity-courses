@@ -15,7 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".view.activity.recipes.RecipesActivity" android:theme="@style/AppThemeNoToolbar">
+        <activity
+            android:name=".view.activity.recipes.RecipesActivity"
+            android:theme="@style/AppThemeNoToolbar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -41,6 +43,7 @@
                 <action android:name="android.intent.action.HEADSET_PLUG" />
             </intent-filter>
         </receiver>
+
         <receiver android:name=".view.widget.BakingAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -51,9 +54,16 @@
                 android:resource="@xml/baking_app_widget_info" />
         </receiver>
 
+        <service
+            android:name=".service.BakingAppIngredientsRemoteService"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
         <provider
             android:authorities="com.example.bakingapp.provider.BakingAppProvider"
             android:name="com.example.bakingapp.generated.BakingAppProvider"
+            android:grantUriPermissions="true"
             android:exported="false" />
 
     </application>

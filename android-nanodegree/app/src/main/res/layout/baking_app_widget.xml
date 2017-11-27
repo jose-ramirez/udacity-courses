@@ -1,16 +1,19 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#09C"
-    android:padding="@dimen/widget_margin">
+    android:orientation="vertical"
+    android:background="?android:colorBackground">
 
     <TextView
-        android:id="@+id/baking_app_widget_icon"
-        android:layout_width="wrap_content"
+        android:id="@+id/widget_recipe_name"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="8dp"
-        android:background="@drawable/ic_app_icon" />
+        android:background="@color/colorPrimary" />
 
-</RelativeLayout>
+    <ListView
+        android:id="@+id/ingredients"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </ListView>
+
+</LinearLayout>

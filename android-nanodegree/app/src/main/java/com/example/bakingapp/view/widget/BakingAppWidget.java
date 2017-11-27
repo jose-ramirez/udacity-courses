@@ -8,6 +8,9 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 
 import com.example.bakingapp.R;
+import com.example.bakingapp.model.Recipe;
+import com.example.bakingapp.service.BakingAppIngredientsRemoteService;
+import com.example.bakingapp.util.DBUtils;
 import com.example.bakingapp.view.activity.recipes.RecipesActivity;
 
 /**
@@ -17,10 +20,12 @@ public class BakingAppWidget extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
-        //views.setTextViewText(R.id.appwidget_text, widgetText);
+
+        Recipe recipe = DBUtils.getRecipe(context.getContentResolver(), 1);
+        views.setTextViewText(R.id.widget_recipe_name, recipe.getName());
+        views.setRemoteAdapter(R.id.ingredients, new Intent(context, BakingAppIngredientsRemoteService.class));
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
@@ -32,13 +37,6 @@ public class BakingAppWidget extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
-        Intent configIntent = new Intent(context, RecipesActivity.class);
-
-        PendingIntent configPendingIntent = PendingIntent.getActivity(context, 0, configIntent, 0);
-
-        remoteViews.setOnClickPendingIntent(R.id.baking_app_widget_icon, configPendingIntent);
-        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
     }
 
     @Override
@@ -51,4 +49,3 @@ public class BakingAppWidget extends AppWidgetProvider {
         // Enter relevant functionality for when the last widget is disabled
     }
 }
-

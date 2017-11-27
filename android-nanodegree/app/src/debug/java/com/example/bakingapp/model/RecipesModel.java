@@ -26,7 +26,7 @@ public class RecipesModel implements MVP.Model {
                 .setLevel(HttpLoggingInterceptor.Level.BODY);
 
         this.client = new OkHttpClient.Builder()
-                .addInterceptor(logAll)
+                //.addInterceptor(logAll)
                 .build();
 
         Retrofit adapter = new Retrofit.Builder()
