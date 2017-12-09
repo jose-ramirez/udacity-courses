@@ -1,7 +1,9 @@
 package com.example.bakingapp.view.activity.steps;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +29,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import timber.log.Timber;
 
 public class StepsActivity extends AppCompatActivity implements ListItemClickListener{
 
@@ -63,7 +66,6 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
 
         toolbar.setTitle(recipe.getName());
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private List<String> getIngredientStrings(Recipe recipe){
@@ -92,20 +94,23 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
         }
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.add_to_widget_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
-        if(itemId == R.id.action_widget){
-            //startActivity(new Intent(this, SettingsActivity.class));
-            Timber.d("yay!");
+        if(itemId == R.id.action_add_to_widget){
+            //save recipe id
+            SharedPreferences prefs = this.getApplicationContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putLong("recipe_id", recipe.getId());
+            editor.commit();
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

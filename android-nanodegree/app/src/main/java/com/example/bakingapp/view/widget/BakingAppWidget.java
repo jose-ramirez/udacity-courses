@@ -23,7 +23,8 @@ public class BakingAppWidget extends AppWidgetProvider {
         // Construct the RemoteViews object
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.baking_app_widget);
 
-        Recipe recipe = DBUtils.getRecipe(context.getContentResolver(), 1);
+        long recipeId = context.getSharedPreferences("prefs", Context.MODE_PRIVATE).getLong("recipe_id", -1L);
+        Recipe recipe = DBUtils.getRecipe(context.getContentResolver(), (int)recipeId);
         views.setTextViewText(R.id.widget_recipe_name, recipe.getName());
         views.setRemoteAdapter(R.id.ingredients, new Intent(context, BakingAppIngredientsRemoteService.class));
 
