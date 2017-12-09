@@ -31,4 +31,7 @@ public interface RecipeColumns {
     @NotNull
     String IMAGE = "image";
 
+    @DataType(INTEGER)
+    @NotNull
+    String FAVORITE = "favorite";
 }

@@ -33,6 +33,7 @@ public class DBUtils {
      */
     public static ContentValues getRecipeContentValue(Recipe recipe){
         ContentValues cvRecipe = new ContentValues();
+        cvRecipe.put(RecipeColumns.FAVORITE, 0);
         cvRecipe.put(RecipeColumns.ID, recipe.getId());
         cvRecipe.put(RecipeColumns.NAME, recipe.getName());
         cvRecipe.put(RecipeColumns.IMAGE, recipe.getImage());
@@ -45,8 +46,9 @@ public class DBUtils {
      * @param provider We'll check the database with this object.
      * @param recipe The recipe we wat to save for lateras a favorite
      */
-    public static void saveRecipeAsFavorite(ContentResolver provider, Recipe recipe){
+    public static void saveRecipe(ContentResolver provider, Recipe recipe){
         ContentValues cvRecipe = getRecipeContentValue(recipe);
+
         ContentValues[] cvIngredients = getIngredientsContentValuesFromRecipe(recipe);
         ContentValues[] cvSteps = getStepsContentValuesFromRecipe(recipe);
 
@@ -70,12 +72,12 @@ public class DBUtils {
     public static boolean isFavorite(ContentResolver provider, Recipe recipe){
         String recipeName = recipe.getName();
         Cursor recipeCursor = provider.query(
-                BakingAppProvider.Recipes.CONTENT_URI,
-                null,
-                RecipeColumns.NAME + " = ?",
-                new String[]{recipeName},
-                null,
-                null);
+            BakingAppProvider.Recipes.CONTENT_URI,
+            null,
+            RecipeColumns.NAME + " = ? and " + RecipeColumns.FAVORITE + " = ?",
+            new String[]{recipeName, "1"},
+            null,
+            null);
         return recipeCursor != null && recipeCursor.moveToFirst();
     }
 
@@ -175,5 +177,22 @@ public class DBUtils {
         }recipe.setSteps(steps);
 
         return recipe;
+    }
+
+    public static void updateFavorite(ContentResolver provider, Recipe recipe, boolean fav){
+        int favInt = fav ? 1 : 0;
+        ContentValues cv = new ContentValues();
+        cv.put(RecipeColumns.FAVORITE, favInt);
+        provider.update(Recipes.CONTENT_URI, cv, RecipeColumns.ID + " = ?", new String[]{String.valueOf(recipe.getId())});
+    }
+
+    public static void saveAll(ContentResolver provider, List<Recipe> recipes){
+        Cursor recipeCursor = provider.query(
+                BakingAppProvider.Recipes.CONTENT_URI, null, null, null, null, null);
+        if(recipeCursor != null && !recipeCursor.moveToNext()){
+            for(Recipe r : recipes){
+                saveRecipe(provider, r);
+            }
+        }
     }
 }

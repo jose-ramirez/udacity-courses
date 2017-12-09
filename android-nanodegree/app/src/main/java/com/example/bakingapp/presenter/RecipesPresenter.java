@@ -78,11 +78,8 @@ public class RecipesPresenter implements MVP.Presenter, Observer<List<Recipe>> {
         ContentResolver provider = this.context.getContentResolver();
         Recipe recipe = (Recipe) view.getTag();
         boolean isAlreadyFavorite = DBUtils.isFavorite(provider, recipe);
-        if(!isAlreadyFavorite){
-            DBUtils.saveRecipeAsFavorite(provider, recipe);
-        }else{
-            DBUtils.deleteRecipe(provider, recipe);
-        }this.recipesView.updateFavorite(view, !isAlreadyFavorite);
+        DBUtils.updateFavorite(provider, recipe, !isAlreadyFavorite);
+        this.recipesView.updateFavorite(view, !isAlreadyFavorite);
     }
 
     @Override
@@ -91,6 +88,7 @@ public class RecipesPresenter implements MVP.Presenter, Observer<List<Recipe>> {
         if(!newRecipes.isEmpty()){
             this.recipesView.showRecipes(true);
             this.recipes.addAll(newRecipes);
+            DBUtils.saveAll(this.context.getContentResolver(), newRecipes);
             this.recipesView.updateRecipesList();
         }else{
             String noRecipesRetrievedMsg = this.context.getString(R.string.empty_recipe_list_msg);

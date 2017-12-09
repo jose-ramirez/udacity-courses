@@ -28,6 +28,8 @@ public class Recipe implements Serializable
     @Expose
     private String image;
 
+    private int favorite = 0;
+
     public Long getId() {
         return id;
     }
@@ -80,4 +82,11 @@ public class Recipe implements Serializable
         return  0;
     }
 
+    public int getFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(int favorite) {
+        this.favorite = favorite;
+    }
 }

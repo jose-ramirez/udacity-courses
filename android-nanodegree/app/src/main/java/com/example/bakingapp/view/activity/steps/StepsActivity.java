@@ -1,6 +1,9 @@
 package com.example.bakingapp.view.activity.steps;
 
+import android.app.Application;
 import android.app.FragmentManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +16,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.bakingapp.R;
 import com.example.bakingapp.model.Ingredient;
@@ -23,13 +25,13 @@ import com.example.bakingapp.util.BakingAppUtil;
 import com.example.bakingapp.view.activity.ListItemClickListener;
 import com.example.bakingapp.view.activity.StepDetailsActivity;
 import com.example.bakingapp.view.fragment.VideoPlayerFragment;
+import com.example.bakingapp.view.widget.BakingAppWidget;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import timber.log.Timber;
 
 public class StepsActivity extends AppCompatActivity implements ListItemClickListener{
 
@@ -62,7 +64,8 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
         rvRecipeSteps.setLayoutManager(new LinearLayoutManager(this));
         rvRecipeSteps.setAdapter(adapter);
 
-        ingredientsListView.setAdapter(new IngredientsAdapter(this, getIngredientStrings(recipe)));
+        ingredientsListView.setAdapter(
+                new IngredientsAdapter(this, getIngredientStrings(recipe)));
 
         toolbar.setTitle(recipe.getName());
         setSupportActionBar(toolbar);
@@ -71,7 +74,8 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
     private List<String> getIngredientStrings(Recipe recipe){
         List<String> ingredientStrings = new ArrayList<>();
         for(Ingredient i : recipe.getIngredients()){
-            ingredientStrings.add(String.format("%s (%.1f %s)", i.getIngredient(), i.getQuantity(), i.getMeasure()));
+            ingredientStrings.add(String.format("%s (%.1f %s)",
+                    i.getIngredient(), i.getQuantity(), i.getMeasure()));
         }
         return ingredientStrings;
     }
@@ -105,12 +109,32 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
         int itemId = item.getItemId();
         if(itemId == R.id.action_add_to_widget){
             //save recipe id
-            SharedPreferences prefs = this.getApplicationContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putLong("recipe_id", recipe.getId());
-            editor.commit();
+            saveRecipeId();
+            // send intent to widget, to update itself
+            updateWidgets();
+
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveRecipeId(){
+        SharedPreferences prefs = this.getApplicationContext()
+                .getSharedPreferences("prefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putLong("recipe_id", this.recipe.getId());
+        editor.commit();
+    }
+
+    private void updateWidgets(){
+        Application app = getApplication();
+        Intent widgetUpdateIntent = new Intent(app, BakingAppWidget.class);
+        widgetUpdateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        AppWidgetManager manager = AppWidgetManager.getInstance(this.getBaseContext());
+        ComponentName provider = new ComponentName(app, BakingAppWidget.class);
+        int[] appWidgetIds = manager.getAppWidgetIds(provider);
+        widgetUpdateIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds);
+        app.sendBroadcast(widgetUpdateIntent);
+        manager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.ingredients);
     }
 }
