@@ -119,6 +119,7 @@ public class VideoPlayerFragment extends Fragment {
         if(this.headsetReceiver != null){
             getActivity().unregisterReceiver(this.headsetReceiver);
         }
+        releasePlayer();
     }
 
     @Override
@@ -127,14 +128,5 @@ public class VideoPlayerFragment extends Fragment {
         if(this.headsetReceiver != null && this.filter != null){
             getActivity().registerReceiver(this.headsetReceiver, this.filter);
         }
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        // This method was inside onPause(), but here it managed to
-        // solve a memory leak (android kept referencing the player
-        // through the player view even after destroying this fragment)
-        releasePlayer();
     }
 }

@@ -39,15 +39,13 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
 
     @BindView(R.id.toolbar) Toolbar toolbar;
 
-    @BindView(R.id.lv_ingredients) ListView ingredientsListView;
+    @BindView(R.id.rv_ingredients) RecyclerView rvIngredients;
 
     private Recipe recipe;
 
     private static final String RECIPE_KEY = "recipe";
 
     private static final String STEP_KEY = "step";
-
-    private static final int DEFAULT_SMALLEST_WIDTH = 600;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,30 +59,21 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
         List<Step> steps = recipe.getSteps();
         StepsAdapter adapter = new StepsAdapter(steps, this);
 
+        rvIngredients.setLayoutManager(new LinearLayoutManager(this));
+        rvIngredients.setAdapter(new IngredientsAdapter(recipe.getIngredients()));
+
         rvRecipeSteps.setLayoutManager(new LinearLayoutManager(this));
         rvRecipeSteps.setAdapter(adapter);
 
-        ingredientsListView.setAdapter(
-                new IngredientsAdapter(this, getIngredientStrings(recipe)));
-
         toolbar.setTitle(recipe.getName());
         setSupportActionBar(toolbar);
-    }
-
-    private List<String> getIngredientStrings(Recipe recipe){
-        List<String> ingredientStrings = new ArrayList<>();
-        for(Ingredient i : recipe.getIngredients()){
-            ingredientStrings.add(String.format("%s (%.1f %s)",
-                    i.getIngredient(), i.getQuantity(), i.getMeasure()));
-        }
-        return ingredientStrings;
     }
 
     @Override
     public void onClick(View v) {
         Step step = (Step) v.getTag();
 
-        if(!BakingAppUtil.sw(this, DEFAULT_SMALLEST_WIDTH)){
+        if(!getResources().getBoolean(R.bool.two_pane)){
             Intent stepVideoIntent = new Intent(this, StepDetailsActivity.class);
             stepVideoIntent.putExtra(STEP_KEY, step);
             startActivity(stepVideoIntent);

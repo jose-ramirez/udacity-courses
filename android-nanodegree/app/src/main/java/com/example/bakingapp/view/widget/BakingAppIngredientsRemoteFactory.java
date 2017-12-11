@@ -38,13 +38,8 @@ public class BakingAppIngredientsRemoteFactory implements RemoteViewsService.Rem
 
     @Override
     public void onDataSetChanged() {
-        // as seen in https://stackoverflow.com/questions/13187284/android-permission-denial-in-widget-remoteviewsfactory-for-content
-        final long token = Binder.clearCallingIdentity();
-        try {
-            this.recipe = DBUtils.getRecipe(mContext.getContentResolver(), 1);
-        } finally {
-            Binder.restoreCallingIdentity(token);
-        }
+        int recipeId = (int)this.mContext.getSharedPreferences("prefs", Context.MODE_PRIVATE).getLong("recipe_id", -1L);
+        this.recipe = DBUtils.getRecipe(mContext.getContentResolver(), recipeId);
     }
 
     @Override

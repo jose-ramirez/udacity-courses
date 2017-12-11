@@ -64,7 +64,7 @@
             android:authorities="com.example.bakingapp.provider.BakingAppProvider"
             android:name="com.example.bakingapp.generated.BakingAppProvider"
             android:grantUriPermissions="true"
-            android:exported="false" />
+            android:exported="true" />
 
     </application>
 </manifest>

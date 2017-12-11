@@ -38,6 +38,7 @@ public class DatabaseTest {
 
     @Before
     public void setup(){
+        cleanDB();
         this.recipe = DBTestUtils.createFakeRecipe();
     }
 
@@ -83,6 +84,10 @@ public class DatabaseTest {
 
     @After
     public void tearDown(){
+        cleanDB();
+    }
+
+    public void cleanDB(){
         // Clean the whole database
         context.getContentResolver().delete(recipesUri, null, null);
         context.getContentResolver().delete(ingredientsUri, null, null);

@@ -5,6 +5,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.example.bakingapp.MVP;
+import com.example.bakingapp.R;
 import com.example.bakingapp.presenter.RecipesPresenter;
 
 import javax.inject.Singleton;
@@ -19,8 +20,6 @@ import dagger.Provides;
 @Module
 public class RecipesActivityModule {
 
-    private static final int DEFAULT_GRID_COLUMNS = 3;
-
     private final Context context;
 
     public RecipesActivityModule(Context context){
@@ -34,14 +33,8 @@ public class RecipesActivityModule {
 
     @Provides
     @Singleton
-    public LinearLayoutManager provideLayoutManager(Context context){
-        return new LinearLayoutManager(context);
-    }
-
-    @Provides
-    @Singleton
     public GridLayoutManager provideGridLayoutManager(Context context){
-        return new GridLayoutManager(context, DEFAULT_GRID_COLUMNS);
+        return new GridLayoutManager(context, this.context.getResources().getInteger(R.integer.column_span));
     }
 
     @Provides

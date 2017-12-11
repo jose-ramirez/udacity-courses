@@ -32,8 +32,6 @@ public class RecipesActivity extends AppCompatActivity implements MVP.View{
 
     @Inject public MVP.Presenter recipesPresenter;
 
-    @Inject LinearLayoutManager manager;
-
     @Inject GridLayoutManager gridManager;
 
     @Nullable @BindView(R.id.rv_recipes) RecyclerView rvRecipes;
@@ -58,11 +56,7 @@ public class RecipesActivity extends AppCompatActivity implements MVP.View{
                 .build()
                 .inject(this);
 
-        if(BakingAppUtil.sw(this, 600)){
-            rvRecipes.setLayoutManager(gridManager);
-        }else{
-            rvRecipes.setLayoutManager(manager);
-        }
+        rvRecipes.setLayoutManager(gridManager);
 
         this.adapter = new RecipesAdapter(new ArrayList<Recipe>());
         rvRecipes.setAdapter(adapter);
@@ -106,11 +100,5 @@ public class RecipesActivity extends AppCompatActivity implements MVP.View{
 
     public void favRecipe(View view){
         this.recipesPresenter.updateFavorite(view);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        this.recipesPresenter.unsubscribe();
     }
 }
