@@ -46,12 +46,14 @@ public class StepViewHolder extends RecyclerView.ViewHolder implements View.OnCl
             GlideApp
                 .with(itemView)
                 .load(this.step.getThumbnailURL())
+                .placeholder(R.drawable.cake_layered)
                 .into(stepView);
         }else{
             if(this.step.getVideoURL() != null){
                 GlideApp
                     .with(itemView)
                     .load(this.step.getVideoURL())
+                    .placeholder(R.drawable.cake_layered)
                     .into(stepView);
             }
         }

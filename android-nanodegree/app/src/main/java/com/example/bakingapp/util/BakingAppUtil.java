@@ -1,7 +1,6 @@
 package com.example.bakingapp.util;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 

@@ -28,9 +28,9 @@ import butterknife.ButterKnife;
 
 public class RecipesActivity extends AppCompatActivity implements MVP.View{
 
-    @Inject RecipesAdapter adapter;
+    @Inject public RecipesAdapter adapter;
 
-    @Inject MVP.Presenter recipesPresenter;
+    @Inject public MVP.Presenter recipesPresenter;
 
     @Inject GridLayoutManager gridManager;
 

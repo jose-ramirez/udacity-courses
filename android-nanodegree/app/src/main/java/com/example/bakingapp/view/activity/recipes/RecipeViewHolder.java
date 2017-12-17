@@ -58,14 +58,16 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.On
             GlideApp
                 .with(itemView)
                 .load(recipe.getImage())
+                .placeholder(R.drawable.cake_layered)
                 .into(recipeView);
         }else{
             Step lastStep = getLastNonNullStep();
             if(lastStep != null){
                 GlideApp
-                .with(itemView)
-                .load(lastStep.getVideoURL())
-                .into(recipeView);
+                    .with(itemView)
+                    .load(lastStep.getVideoURL())
+                    .placeholder(R.drawable.cake_layered)
+                    .into(recipeView);
             }
         }
     }

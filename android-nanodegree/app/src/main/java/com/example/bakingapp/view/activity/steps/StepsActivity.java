@@ -15,19 +15,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import com.example.bakingapp.R;
-import com.example.bakingapp.model.Ingredient;
 import com.example.bakingapp.model.Recipe;
 import com.example.bakingapp.model.Step;
-import com.example.bakingapp.util.BakingAppUtil;
 import com.example.bakingapp.view.activity.ListItemClickListener;
 import com.example.bakingapp.view.activity.StepDetailsActivity;
+import com.example.bakingapp.view.activity.player.StepVideoPlayerActivity;
 import com.example.bakingapp.view.fragment.VideoPlayerFragment;
 import com.example.bakingapp.view.widget.BakingAppWidget;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,17 +32,17 @@ import butterknife.ButterKnife;
 
 public class StepsActivity extends AppCompatActivity implements ListItemClickListener{
 
-    @BindView(R.id.rv_recipe_steps) RecyclerView rvRecipeSteps;
-
-    @BindView(R.id.toolbar) Toolbar toolbar;
-
-    @BindView(R.id.rv_ingredients) RecyclerView rvIngredients;
-
     private Recipe recipe;
 
     private static final String RECIPE_KEY = "recipe";
 
     private static final String STEP_KEY = "step";
+
+    @BindView(R.id.rv_recipe_steps) RecyclerView rvRecipeSteps;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
+    @BindView(R.id.rv_ingredients) RecyclerView rvIngredients;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +71,7 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
         Step step = (Step) v.getTag();
 
         if(!getResources().getBoolean(R.bool.two_pane)){
-            Intent stepVideoIntent = new Intent(this, StepDetailsActivity.class);
+            Intent stepVideoIntent = new Intent(this, StepVideoPlayerActivity.class);
             stepVideoIntent.putExtra(STEP_KEY, step);
             startActivity(stepVideoIntent);
         }else{
@@ -84,6 +81,7 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
                     .replace(R.id.step_details_fragment_layout,
                             VideoPlayerFragment.newInstance(step))
                     .commit();
+
         }
     }
 
@@ -97,11 +95,8 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemId = item.getItemId();
         if(itemId == R.id.action_add_to_widget){
-            //save recipe id
             saveRecipeId();
-            // send intent to widget, to update itself
             updateWidgets();
-
             return true;
         }
         return super.onOptionsItemSelected(item);

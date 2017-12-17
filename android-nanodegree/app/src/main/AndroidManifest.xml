@@ -31,8 +31,8 @@
 
         <activity
             android:name=".view.activity.steps.StepsActivity"
-            android:theme="@style/AppThemeNoToolbar"
-            android:parentActivityName=".view.activity.recipes.RecipesActivity" >
+            android:parentActivityName=".view.activity.recipes.RecipesActivity"
+            android:theme="@style/AppThemeNoToolbar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.activity.recipes.RecipesActivity" />
@@ -61,10 +61,14 @@
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <provider
+            android:name=".generated.BakingAppProvider"
             android:authorities="com.example.bakingapp.provider.BakingAppProvider"
-            android:name="com.example.bakingapp.generated.BakingAppProvider"
-            android:grantUriPermissions="true"
-            android:exported="true" />
+            android:exported="true"
+            android:grantUriPermissions="true" />
 
+        <activity
+            android:name=".view.activity.player.StepVideoPlayerActivity"
+            android:theme="@style/PlayerTheme" />
     </application>
+
 </manifest>

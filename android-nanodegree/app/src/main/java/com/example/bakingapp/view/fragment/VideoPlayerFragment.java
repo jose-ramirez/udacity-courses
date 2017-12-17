@@ -11,11 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bakingapp.R;
-import com.example.bakingapp.di.DaggerPlayerFragmentComponent;
-import com.example.bakingapp.di.PlayerFragmentModule;
+import com.example.bakingapp.di.DaggerPlayerComponent;
+import com.example.bakingapp.di.PlayerModule;
 import com.example.bakingapp.model.Step;
 import com.example.bakingapp.presenter.HeadphonePluggedDetector;
+import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 
 import javax.inject.Inject;
@@ -24,21 +26,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class VideoPlayerFragment extends Fragment {
+public class VideoPlayerFragment extends Fragment{
 
     private static final String STEP_KEY = "step";
-
     private Step step;
-
+    private String videoUrl;
     @Inject HeadphonePluggedDetector headsetReceiver;
-
     @Inject IntentFilter filter;
-
-    @Nullable @BindView(R.id.tv_step_description) TextView tvStepDescription;
-
-    @BindView(R.id.recipe_step_player_view) SimpleExoPlayerView playerView;
-
     @Inject SimpleExoPlayer player;
+    @Inject MediaSource mediaSource;
+    @Nullable @BindView(R.id.tv_step_description) TextView tvStepDescription;
+    @BindView(R.id.recipe_step_player_view) SimpleExoPlayerView playerView;
 
     public VideoPlayerFragment(){}
 
@@ -54,7 +52,7 @@ public class VideoPlayerFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            step = (Step) getArguments().getSerializable(STEP_KEY);
+            this.step = (Step) getArguments().getSerializable(STEP_KEY);
         }
     }
 
@@ -63,35 +61,40 @@ public class VideoPlayerFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_video_player, container, false);
-
         ButterKnife.bind(this, view);
-
-        // The last parameter is for resuming playback, i.e., if I rotate the device,
-        // the player should resume playback from where it was before rotating; but I
-        // hardcode it to 0 since I couldn't send this value from the fragment to the
-        // activity in a clean way :(
-        PlayerFragmentModule pm = new PlayerFragmentModule(getActivity(), step, 0);
-        DaggerPlayerFragmentComponent.builder()
-                .playerFragmentModule(pm)
-                .build()
-                .inject(this);
-
+        this.videoUrl = this.step.getVideoURL();
+        PlayerModule pm = new PlayerModule(getActivity(), this.videoUrl);
+        DaggerPlayerComponent.builder().playerModule(pm).build().inject(this);
         this.playerView.setPlayer(player);
+        showMessageIfEmptyUrl();
+        showStepDescription();
+        skipTo(0);
+        return view;
+    }
 
-        String videoURL = this.step.getVideoURL();
-        if(videoURL == null || videoURL.isEmpty()){
-            Toast.makeText(
-                    getContext(),
-                    getResources().getString(R.string.invalid_video_url_msg),
-                    Toast.LENGTH_LONG)
-                .show();
+    private void skipTo(long position){
+        if(this.videoUrl != null && !this.videoUrl.isEmpty()){
+            int resumeWindow = this.player.getCurrentWindowIndex();
+            boolean haveResumePosition = resumeWindow != C.INDEX_UNSET;
+            if (haveResumePosition && position > 0) {
+                player.seekTo(resumeWindow, position);
+            }
+            player.prepare(this.mediaSource, !haveResumePosition, false);
         }
+    }
 
+    private void showStepDescription(){
         if (tvStepDescription != null) {
             tvStepDescription.setText(this.step.getDescription());
         }
+    }
 
-        return view;
+    private void showMessageIfEmptyUrl(){
+        String videoURL = this.step.getVideoURL();
+        String emptyUrlMsg = getResources().getString(R.string.invalid_video_url_msg);
+        if(videoURL == null || videoURL.isEmpty()){
+            Toast.makeText(getContext(), emptyUrlMsg, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void releasePlayer(){
