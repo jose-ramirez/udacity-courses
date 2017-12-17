@@ -6,7 +6,11 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.example.bakingapp.MVP;
 import com.example.bakingapp.R;
+import com.example.bakingapp.model.Recipe;
 import com.example.bakingapp.presenter.RecipesPresenter;
+import com.example.bakingapp.view.activity.recipes.RecipesAdapter;
+
+import java.util.ArrayList;
 
 import javax.inject.Singleton;
 
@@ -42,5 +46,11 @@ public class RecipesActivityModule {
     public MVP.Presenter providePresenter(Context context){
         MVP.Presenter presenter = new RecipesPresenter();
         return presenter;
+    }
+
+    @Provides
+    @Singleton
+    public RecipesAdapter provideRecipeAdapter(){
+        return new RecipesAdapter(new ArrayList<Recipe>());
     }
 }

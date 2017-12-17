@@ -28,9 +28,9 @@ import butterknife.ButterKnife;
 
 public class RecipesActivity extends AppCompatActivity implements MVP.View{
 
-    private RecipesAdapter adapter;
+    @Inject RecipesAdapter adapter;
 
-    @Inject public MVP.Presenter recipesPresenter;
+    @Inject MVP.Presenter recipesPresenter;
 
     @Inject GridLayoutManager gridManager;
 
@@ -58,7 +58,6 @@ public class RecipesActivity extends AppCompatActivity implements MVP.View{
 
         rvRecipes.setLayoutManager(gridManager);
 
-        this.adapter = new RecipesAdapter(new ArrayList<Recipe>());
         rvRecipes.setAdapter(adapter);
 
         this.recipesPresenter.setView(this);
