@@ -1,4 +1,4 @@
-def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystorePropertiesFile = rootProject.file("real_keystore.properties")
 
 def keystoreProperties = new Properties()
 
