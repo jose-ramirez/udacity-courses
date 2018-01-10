@@ -49,7 +49,7 @@ public class PlayerModule {
         return Util.getUserAgent(this.context, "BakingApp");
     }
 
-    @Provides
+    /*@Provides
     @Singleton
     public SimpleExoPlayer providePlayer(
             String userAgent,
@@ -92,7 +92,7 @@ public class PlayerModule {
                 Uri.parse(this.videoUrl),
                 defaultFactory,
                 extractorsFactory, null, null);
-    }
+    }*/
 
     /**
      * This one I like :)
@@ -104,11 +104,11 @@ public class PlayerModule {
      * @param player
      * @return The "headset plugged detector".
      */
-    @Provides
+    /*@Provides
     @Singleton
     public HeadphonePluggedDetector provideDetector(SimpleExoPlayer player){
         return new HeadphonePluggedDetector(player);
-    }
+    }*/
 
     /**
      * This is so the headset plugged detector can work.

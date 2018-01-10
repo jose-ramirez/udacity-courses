@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bakingapp.PlayerFactory;
 import com.example.bakingapp.R;
 import com.example.bakingapp.di.DaggerPlayerComponent;
 import com.example.bakingapp.di.PlayerModule;
@@ -31,10 +32,13 @@ public class VideoPlayerFragment extends Fragment{
     private static final String STEP_KEY = "step";
     private Step step;
     private String videoUrl;
-    @Inject HeadphonePluggedDetector headsetReceiver;
+    //@Inject HeadphonePluggedDetector headsetReceiver;
+    //@Inject SimpleExoPlayer player;
+    //@Inject MediaSource mediaSource;
     @Inject IntentFilter filter;
-    @Inject SimpleExoPlayer player;
-    @Inject MediaSource mediaSource;
+    private SimpleExoPlayer player;
+    private MediaSource mediaSource;
+    private HeadphonePluggedDetector headsetReceiver;
     @Nullable @BindView(R.id.tv_step_description) TextView tvStepDescription;
     @BindView(R.id.recipe_step_player_view) SimpleExoPlayerView playerView;
 
@@ -65,6 +69,8 @@ public class VideoPlayerFragment extends Fragment{
         this.videoUrl = this.step.getVideoURL();
         PlayerModule pm = new PlayerModule(getActivity(), this.videoUrl);
         DaggerPlayerComponent.builder().playerModule(pm).build().inject(this);
+
+        this.player = new PlayerFactory(this.getContext(), this.videoUrl).player();
         this.playerView.setPlayer(player);
         showMessageIfEmptyUrl();
         showStepDescription();

@@ -86,6 +86,8 @@ dependencies {
     // logging-interceptor, to log http traffic as it happens
     debugCompile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
 
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
+
     // stetho, to inspect/test sql commands on the database through the browser
     debugCompile 'com.facebook.stetho:stetho:1.5.0'
     testCompile 'junit:junit:4.12'

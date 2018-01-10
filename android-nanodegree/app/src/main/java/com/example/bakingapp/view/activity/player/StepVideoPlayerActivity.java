@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bakingapp.PlayerFactory;
 import com.example.bakingapp.R;
 import com.example.bakingapp.di.DaggerPlayerComponent;
 import com.example.bakingapp.di.PlayerModule;
@@ -46,13 +47,21 @@ public class StepVideoPlayerActivity extends Activity implements ExoPlayer.Event
 
     private boolean isPlaying;
 
-    @Inject HeadphonePluggedDetector headsetReceiver;
+    private SimpleExoPlayer player;
+
+    private MediaSource mediaSource;
+
+    private HeadphonePluggedDetector headsetReceiver;
+
+    private PlayerFactory factory;
+
+    //@Inject HeadphonePluggedDetector headsetReceiver;
+
+    //@Inject SimpleExoPlayer player;
+
+    //@Inject MediaSource mediaSource;
 
     @Inject IntentFilter filter;
-
-    @Inject SimpleExoPlayer player;
-
-    @Inject MediaSource mediaSource;
 
     @Nullable @BindView(R.id.tv_step_description) TextView tvStepDescription;
 
@@ -83,6 +92,12 @@ public class StepVideoPlayerActivity extends Activity implements ExoPlayer.Event
                 .playerModule(pm)
                 .build()
                 .inject(this);
+
+        this.factory = new PlayerFactory(this, this.step.getVideoURL());
+
+        this.player = factory.player();
+
+        this.mediaSource = factory.provideMediaSource();
 
         this.playerView.setPlayer(this.player);
 
@@ -153,6 +168,12 @@ public class StepVideoPlayerActivity extends Activity implements ExoPlayer.Event
     @Override
     public void onResume() {
         super.onResume();
+        if(this.player == null){
+            this.player = this.factory.player();
+            this.playerView.setPlayer(this.player);
+            skipTo(this.lastPosition);
+            this.player.setPlayWhenReady(this.isPlaying);
+        }
         if(this.headsetReceiver != null && this.filter != null){
             this.registerReceiver(this.headsetReceiver, this.filter);
         }

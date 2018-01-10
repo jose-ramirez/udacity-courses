@@ -107,7 +107,7 @@ public class StepsActivity extends AppCompatActivity implements ListItemClickLis
                 .getSharedPreferences("prefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putLong("recipe_id", this.recipe.getId());
-        editor.commit();
+        editor.apply();
     }
 
     private void updateWidgets(){

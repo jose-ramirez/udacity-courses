@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -54,7 +55,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.On
         ContentResolver provider = this.context.getContentResolver();
         this.favButton.setSelected(DBUtils.isFavorite(provider, recipe));
         this.favButton.setTag(this.recipe);
-        if(!"".equals(this.recipe.getImage())){
+        if(!TextUtils.isEmpty(this.recipe.getImage())){
             GlideApp
                 .with(itemView)
                 .load(recipe.getImage())
