@@ -2,6 +2,6 @@ package com.example.jokeslib;
 
 public class JokesProvider {
     public String provideJoke() {
-        return "Abacaxá";
+        return "Why did the chicken cross the road? :)";
     }
 }
