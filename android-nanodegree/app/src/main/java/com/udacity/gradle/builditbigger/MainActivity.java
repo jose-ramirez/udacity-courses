@@ -2,9 +2,9 @@ package com.udacity.gradle.builditbigger;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +12,8 @@ import android.view.View;
 import com.example.jokeslib2.JokesActivity;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -46,6 +48,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new EndpointsAsyncTask().execute(this);
+        try{
+            AsyncTask<Context, Void, String> jokeTask = new EndpointsAsyncTask().execute(this);
+            String joke = (String) jokeTask.get(5, TimeUnit.SECONDS);
+            if(joke != null && joke.contains("chicken")){
+                Intent jokeActivityIntent = new Intent(this, JokesActivity.class);
+                jokeActivityIntent.putExtra("joke", joke);
+                startActivity(jokeActivityIntent);
+            }
+        }catch(InterruptedException ex){
+            System.err.println(ex.getMessage());
+        }catch(ExecutionException ex){
+            System.err.println(ex.getMessage());
+        }catch(TimeoutException ex){
+            System.err.println(ex.getMessage());
+        }
     }
 }

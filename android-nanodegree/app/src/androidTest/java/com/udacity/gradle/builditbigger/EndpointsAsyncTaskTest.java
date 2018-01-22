@@ -12,7 +12,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by jose on 14/01/18.
@@ -23,11 +25,12 @@ public class EndpointsAsyncTaskTest {
     @Test
     public void test(){
         try {
-            AsyncTask<Context, Void, String> jokeTask = new CustomEndpointAsyncTask();
+            AsyncTask<Context, Void, String> jokeTask = new EndpointsAsyncTask();
             Context context = InstrumentationRegistry.getContext();
             jokeTask.execute(context);
             String joke = (String)jokeTask.get(10, TimeUnit.SECONDS);
             assertNotNull(joke);
+            assertTrue(joke.contains("chicken"));
         }catch(InterruptedException ex){
             fail(ex.getMessage());
         }catch(ExecutionException ex){
