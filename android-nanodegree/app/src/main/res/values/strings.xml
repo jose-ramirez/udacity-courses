@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Baking App</string>
+    <string name="test_text">This is some random recipe name, just for the kicks!</string>
+    <string name="headset_unplugged_msg">Headset is unplugged.</string>
+    <string name="headset_plugged_msg">Headset is plugged.</string>
+    <string name="unknown_headset_state_msg">Unknown headset state: </string>
+    <string name="error_code">Error code: </string>
+    <string name="error_message">Error message: </string>
+    <string name="error_url">URL: </string>
+    <string name="empty_recipe_list_msg">No recipes found at the moment.</string>
+    <string name="recipe_loading_failed_msg">Error trying to load recipes:</string>
+    <string name="no_internet_msg">Your device isn\'t connected to the internet at the time. Please try again later.</string>
+    <string name="invalid_video_url_msg">Invalid video URL</string>
+    <string name="recipe_added_msg">Recipe added to favorites</string>
+    <string name="recipe_removed_msg">Recipe removed from favorites</string>
+</resources>

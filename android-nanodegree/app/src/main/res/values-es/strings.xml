@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">App de Pastelería</string>
+    <string name="test_text">Esto es un nombre aleatorio de recetas, porque sí! :p</string>
+    <string name="headset_unplugged_msg">Audífonos fueron desconectados.</string>
+    <string name="headset_plugged_msg">Audífonos conectados.</string>
+    <string name="unknown_headset_state_msg">Estado de audífonos desconocido: </string>
+    <string name="error_code">Código de error: </string>
+    <string name="error_message">Mnesaje de error: </string>
+    <string name="error_url">URL: </string>
+    <string name="empty_recipe_list_msg">No fueron encontradas recetas de momento.</string>
+    <string name="recipe_loading_failed_msg">Error tratando de cargar recetas: </string>
+    <string name="no_internet_msg">Tu dispositivo no está conectado a la internet en este momento. Por favor, intenta más tarde.</string>
+    <string name="invalid_video_url_msg">URL del video inválida</string>
+    <string name="recipe_added_msg">Receta agregada a los favoritos</string>
+    <string name="recipe_removed_msg">Receta retirada de los favoritos</string>
+</resources>
