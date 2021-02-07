@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.constraint.ConstraintLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <!-- Info about the video... -->
+        <TextView
+            android:id="@+id/tv_video_info"
+            android:layout_width="310dp"
+            android:layout_height="23dp"
+            android:scrollHorizontally="false"
+            android:layout_marginBottom="-10dp"
+            android:layout_marginLeft="-132dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="1"
+            android:ellipsize="none"
+            android:maxLines="100"
+            android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/ib_view_possibly_on_youtube"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.225"
+            tools:layout_editor_absoluteY="13dp" />
+        <ImageButton
+            android:id="@+id/ib_view_possibly_on_youtube"
+            android:background="#fff"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:src="@drawable/play_icon"
+            android:layout_marginRight="8dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="8dp"
+            android:onClick="viewPossiblyOnYoutube"/>
+    </android.support.constraint.ConstraintLayout>
+
+    <!-- And the separator. -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#dadada"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp" />
+</LinearLayout>
